@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { storage } from "./Storage";
-import { IPersistentPlugin } from "./plugin/PersistentPlugin";
+import { IPersistentPlugin } from "./plugin/IPersistentPlugin";
 import { JsonPlugin } from "./plugin/JsonPlugin";
 
 export interface IPersistentOptions {
