@@ -1,0 +1,24 @@
+{
+  "name": "persistent-typescript",
+  "version": "1.0.0",
+  "description": "An easy way to load & save variables",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulienTD/Persistent-TypeScript.git"
+  },
+  "author": "JulienTD",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JulienTD/Persistent-TypeScript/issues"
+  },
+  "homepage": "https://github.com/JulienTD/Persistent-TypeScript#readme",
+  "devDependencies": {
+    "@types/node": "^12.0.10",
+    "reflect-metadata": "^0.1.13"
+  }
+}
