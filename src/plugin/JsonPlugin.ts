@@ -6,6 +6,7 @@ export class JsonPlugin implements IPersistentPlugin {
     public init(): object {
         return new HashMap();
     }
+
     public serialize(object: object): string {
         return (<HashMap>object).toJson();
     }
@@ -22,8 +23,6 @@ export class JsonPlugin implements IPersistentPlugin {
 
     public put(object: object, className: string, classInstance: object): void {
         (<HashMap>object).put(className, classInstance);
-        // this.persistentObjects.getValue(options.path).put(className, classInstance);
-
     }
 
 };

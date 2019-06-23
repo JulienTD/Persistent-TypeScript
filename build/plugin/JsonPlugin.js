@@ -20,7 +20,6 @@ var JsonPlugin = /** @class */ (function () {
     };
     JsonPlugin.prototype.put = function (object, className, classInstance) {
         object.put(className, classInstance);
-        // this.persistentObjects.getValue(options.path).put(className, classInstance);
     };
     return JsonPlugin;
 }());
