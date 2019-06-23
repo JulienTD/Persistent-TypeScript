@@ -4,6 +4,7 @@ import { Persistent, IPersistentOptions } from "./Persistent";
 import * as fs from 'fs';
 import * as process from "process";
 import * as path from "path";
+import { SIGINT } from "constants";
 
 export class Storage {
     private persistentObjects: HashMap = null;
@@ -14,14 +15,20 @@ export class Storage {
         this.persistentObjects = new HashMap();
         this.persistentObjectsMetadata = new HashMap();
         process.on('exit', function(code) {
-            return This.save();
+            This.save();
+        });
+        
+        process.on('uncaughtException', function(e) {
+            // console.log('Uncaught Exception...');
+            // console.log(e.stack);
+            process.exit(99);
         });
         console.log("[Persistent] Initialization done !");
     }
 
-    private loadPersistentFile(options: IPersistentOptions) {
+    public loadPersistentFile(options: IPersistentOptions, force: boolean) {
         try {
-            if (this.persistentObjects.containsKey(path.resolve(options.path)) == true)
+            if (this.persistentObjects.containsKey(path.resolve(options.path)) == true && !force)
                 return;
             this.persistentObjects.put(path.resolve(options.path), options.plugin.init());
             this.persistentObjectsMetadata.put(path.resolve(options.path), options);
@@ -37,7 +44,7 @@ export class Storage {
     }
 
     public store(classInstance: Object, options: IPersistentOptions) {
-        this.loadPersistentFile(options);
+        this.loadPersistentFile(options, false);
         let className: string = Utils.getClassName(classInstance);
         let savedClass = options.plugin.get(this.persistentObjects.getValue(path.resolve(options.path)), className);
 

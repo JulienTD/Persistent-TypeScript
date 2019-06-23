@@ -1,4 +1,5 @@
 import { Persistent } from "./Persistent";
+import { TestPlugin } from "./plugin/TestPlugin";
 
 @Persistent()
 class Person {
@@ -18,6 +19,15 @@ class Person {
     }
 }
 
+@Persistent({path: "./hello_world.txt", plugin: new TestPlugin()})
+class Test {
+    public value: string;
+
+    constructor(str: string) {
+        this.value = str;
+    }
+};
+
 @Persistent()
 class Lol {
     public xd: string;
@@ -31,9 +41,20 @@ class Lol {
 
 let person: Person = new Person("name", "surname");
 let lol: Lol = new Lol("issou", 89);
+let test: Test = new Test("World!");
+
 console.log(person);
 console.log(lol);
+console.log(test);
+test.value = "meaaaaa!";
 
 person.name = "testtestetst";
 lol.aaa = 42;
 person.surname = "Julien";
+// console.log("-----------");
+// console.log(person);
+// console.log(lol);
+// console.log(test);
+
+// person.print();
+person["hakuna"] = "matata";

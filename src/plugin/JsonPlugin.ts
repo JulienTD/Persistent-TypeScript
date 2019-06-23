@@ -1,4 +1,4 @@
-import { IPersistentPlugin } from "./PersistentPlugin";
+import { IPersistentPlugin } from "./IPersistentPlugin";
 import { HashMap } from "../HashMap";
 
 export class JsonPlugin implements IPersistentPlugin {
