@@ -2,13 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 var Storage_1 = require("./Storage");
-var JsonSerializer_1 = require("./serializer/JsonSerializer");
-var JsonDeserializer_1 = require("./deserializer/JsonDeserializer");
+var JsonPlugin_1 = require("./plugin/JsonPlugin");
 ;
 function defaultOptions() {
     return {
-        serializer: new JsonSerializer_1.JsonSerializer(),
-        deserializer: new JsonDeserializer_1.JsonDeserializer(),
+        plugin: new JsonPlugin_1.JsonPlugin(),
         path: ".persistent.json"
     };
 }

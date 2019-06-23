@@ -4,17 +4,17 @@ import { JsonSerializer } from "./serializer/JsonSerializer";
 import { JsonDeserializer } from "./deserializer/JsonDeserializer";
 import { IPersistentSerializer } from "./serializer/IPersistentSerializer";
 import { IPersistentDeserializer } from "./deserializer/IPersistentDeserializer";
+import { IPersistentPlugin } from "./plugin/PersistentPlugin";
+import { JsonPlugin } from "./plugin/JsonPlugin";
 
 export interface IPersistentOptions {
-    serializer: IPersistentSerializer;
-    deserializer: IPersistentDeserializer;
+    plugin: IPersistentPlugin;
     path: string;
 };
 
 function defaultOptions(): IPersistentOptions {
     return {
-        serializer: new JsonSerializer(),
-        deserializer: new JsonDeserializer(),
+        plugin: new JsonPlugin(),
         path: ".persistent.json"};
 }
 

@@ -36,3 +36,4 @@ console.log(lol);
 
 person.name = "testtestetst";
 lol.aaa = 42;
+person.surname = "Julien";
