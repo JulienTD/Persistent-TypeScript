@@ -1,5 +1,5 @@
-export class HashMap {
-    private map: object;
+export class Map {
+    private map: any;
     private mapSize: number;
 
     public constructor() {
@@ -122,18 +122,18 @@ export class HashMap {
     }
 
     /**
-     *  Saves the hashmap to json
+     *  Saves the map to json
      */
     public toJson(): string {
         return JSON.stringify(this.map);
     }
 
     /**
-     *  Creates an hashmap from its serialization
-     * @param data serialized hashmap
+     *  Creates an map from its serialization
+     * @param data serialized map
      */
-    public static fromJson(serializedHm: string): HashMap {
-        let hm: HashMap = new HashMap();
+    public static fromJson(serializedHm: string): Map {
+        let hm: Map = new Map();
         let rawObject = JSON.parse(serializedHm);
 
         if (rawObject == null)

@@ -1,5 +1,5 @@
-import { Utils } from "./Utils";
-import { HashMap } from "./HashMap";
+import { Utils } from "./utils/Utils";
+import { Map } from "./utils/Map";
 import { Persistent, IPersistentOptions } from "./Persistent";
 import * as fs from 'fs';
 import * as process from "process";
@@ -7,17 +7,16 @@ import * as path from "path";
 import { SIGINT } from "constants";
 
 export class Storage {
-    private persistentObjects: HashMap = null;
-    private persistentObjectsMetadata: HashMap = null;
+    private persistentObjects: Map = null;
+    private persistentObjectsMetadata: Map = null;
 
     constructor() {
         let This = this;
-        this.persistentObjects = new HashMap();
-        this.persistentObjectsMetadata = new HashMap();
+        this.persistentObjects = new Map();
+        this.persistentObjectsMetadata = new Map();
         process.on('exit', function(code) {
             This.save();
         });
-        
         process.on('uncaughtException', function(e) {
             // console.log('Uncaught Exception...');
             // console.log(e.stack);

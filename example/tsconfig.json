@@ -1,12 +1,11 @@
 {
     "compilerOptions": {
       "target": "es5",
-      // "strict": true,
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true,
-      "outDir": "./build",
+      "outDir": "../build/",
     },
-    "include": ["./src/**/*"],
+    "include": ["./**/*"],
     "exclude": [
       "node_modules"
     ]

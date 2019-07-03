@@ -63,3 +63,4 @@ typings/
 # Transpiled files
 ./build/
 ./build/**/**
+build/
