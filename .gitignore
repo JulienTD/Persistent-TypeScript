@@ -59,3 +59,12 @@ typings/
 
 # next.js build output
 .next
+
+# Transpiled files
+./build/
+./build/**/**
+build/
+
+# Persistent files example
+.persistent.json
+hello_world.txt
