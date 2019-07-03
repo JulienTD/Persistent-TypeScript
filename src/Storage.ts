@@ -4,7 +4,6 @@ import { Persistent, IPersistentOptions } from "./Persistent";
 import * as fs from 'fs';
 import * as process from "process";
 import * as path from "path";
-import { SIGINT } from "constants";
 
 export class Storage {
     private persistentObjects: Map = null;
@@ -14,13 +13,24 @@ export class Storage {
         let This = this;
         this.persistentObjects = new Map();
         this.persistentObjectsMetadata = new Map();
-        process.on('exit', function(code) {
+        process.stdin.resume();
+        process.on('SIGINT', function() {
             This.save();
         });
-        process.on('uncaughtException', function(e) {
-            // console.log('Uncaught Exception...');
-            // console.log(e.stack);
-            process.exit(99);
+        process.on('SIGHUP', function() {
+            This.save();
+        });
+        process.on('SIGQUIT', function() {
+            This.save();
+        });
+        process.on('SIGTERM', function() {
+            This.save();
+        });
+        process.on('uncaughtException', function() {
+            This.save();
+        });
+        process.on('exit', function() {
+            This.save();
         });
         console.log("[Persistent] Initialization done !");
     }
