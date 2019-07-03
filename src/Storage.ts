@@ -13,7 +13,6 @@ export class Storage {
         let This = this;
         this.persistentObjects = new Map();
         this.persistentObjectsMetadata = new Map();
-        process.stdin.resume();
         process.on('SIGINT', function() {
             This.save();
         });
@@ -35,6 +34,11 @@ export class Storage {
         console.log("[Persistent] Initialization done !");
     }
 
+    /**
+     * Loads a persistent file to retrieve the classes information stored in it
+     * @param options Persistent option, with theses options you can choose your saver, loader and the path to the file
+     * @param force Force to reload the file
+     */
     public loadPersistentFile(options: IPersistentOptions, force: boolean) {
         try {
             if (this.persistentObjects.containsKey(path.resolve(options.path)) == true && !force)
@@ -52,6 +56,11 @@ export class Storage {
         }
     }
 
+    /**
+     * Stores the class instance to the storage
+     * @param classInstance class instance to store
+     * @param options Persistent option, with theses options you can choose your saver, loader and the path to the file
+     */
     public store(classInstance: Object, options: IPersistentOptions) {
         this.loadPersistentFile(options, false);
         let className: string = Utils.getClassName(classInstance);
@@ -65,6 +74,9 @@ export class Storage {
         options.plugin.put(this.persistentObjects.getValue(path.resolve(options.path)), className, classInstance);
     }
 
+    /**
+     * Saves all classes stored in the storage using the plugin specified
+     */
     public save() {
         console.log("[Persistent] Saving classes ...");
         for (let key of this.persistentObjects.keys()) {

@@ -3,12 +3,18 @@ import { Map } from "../utils/Map";
 
 export class JsonPlugin implements IPersistentPlugin {
 
+    private minified: boolean;
+
+    public constructor(isMinified: boolean) {
+        this.minified = isMinified;
+    }
+
     public init(): object {
         return new Map();
     }
 
     public serialize(object: object): string {
-        return (<Map>object).toJson();
+        return (<Map>object).toJson(this.minified);
     }
 
     public deserialize(serializedObject: string): object {
