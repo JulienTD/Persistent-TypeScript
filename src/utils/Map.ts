@@ -124,8 +124,11 @@ export class Map {
     /**
      *  Saves the map to json
      */
-    public toJson(): string {
-        return JSON.stringify(this.map);
+    public toJson(isMinified: boolean): string {
+        if (!isMinified)
+            return JSON.stringify(this.map, null, 4);
+        else
+            return JSON.stringify(this.map);
     }
 
     /**
