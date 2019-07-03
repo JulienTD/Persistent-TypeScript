@@ -1,28 +1,28 @@
 import { IPersistentPlugin } from "./IPersistentPlugin";
-import { HashMap } from "../HashMap";
+import { Map } from "../utils/Map";
 
 export class JsonPlugin implements IPersistentPlugin {
 
     public init(): object {
-        return new HashMap();
+        return new Map();
     }
 
     public serialize(object: object): string {
-        return (<HashMap>object).toJson();
+        return (<Map>object).toJson();
     }
 
     public deserialize(serializedObject: string): object {
-        return HashMap.fromJson(serializedObject);
+        return Map.fromJson(serializedObject);
     }
 
     public get(object: object, className: string): object {
         if (object == null)
             return null;
-        return (<HashMap>object).getValue(className);
+        return (<Map>object).getValue(className);
     }
 
     public put(object: object, className: string, classInstance: object): void {
-        (<HashMap>object).put(className, classInstance);
+        (<Map>object).put(className, classInstance);
     }
 
 };

@@ -1,5 +1,5 @@
-import { Persistent } from "./Persistent";
-import { TestPlugin } from "./plugin/TestPlugin";
+import { Persistent } from "../src/Persistent";
+import { TestPlugin } from "./TestPlugin";
 
 @Persistent()
 class Person {
@@ -51,10 +51,4 @@ test.value = "meaaaaa!";
 person.name = "testtestetst";
 lol.aaa = 42;
 person.surname = "Julien";
-// console.log("-----------");
-// console.log(person);
-// console.log(lol);
-// console.log(test);
-
-// person.print();
 person["hakuna"] = "matata";
