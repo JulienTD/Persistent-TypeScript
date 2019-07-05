@@ -1,8 +1,9 @@
 {
   "name": "persistent-typescript",
   "version": "1.0.0",
-  "description": "An easy way to load & save variables",
+  "description": "An easy way to load & save datas",
   "main": "./build/Persistent.js",
+  "types": "./build/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc --watch",
@@ -13,6 +14,7 @@
     "url": "git+https://github.com/JulienTD/Persistent-TypeScript.git"
   },
   "author": "JulienTD",
+  "keywords": ["Persistent", "Persistentts", "Persistent-TS", "Persistent-Typescript", "Persistant", "save", "data", "config"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/JulienTD/Persistent-TypeScript/issues"

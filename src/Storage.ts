@@ -45,8 +45,12 @@ export class Storage {
                 return;
             this.persistentObjects.put(path.resolve(options.path), options.plugin.init());
             this.persistentObjectsMetadata.put(path.resolve(options.path), options);
-            let data = fs.readFileSync(path.resolve(options.path), "utf8");
-
+            let data = null;
+            if (Utils.isBrowser()) {
+                data = localStorage.getItem(path.resolve(options.path));
+            } else {
+                data = fs.readFileSync(path.resolve(options.path), "utf8");
+            }
             if (data == null || data === undefined)
                 return;
             this.persistentObjects.put(path.resolve(options.path), options.plugin.deserialize(data));
@@ -80,10 +84,15 @@ export class Storage {
     public save() {
         console.log("[Persistent] Saving classes ...");
         for (let key of this.persistentObjects.keys()) {
-            fs.writeFileSync(
-                key,
-                (<IPersistentOptions>this.persistentObjectsMetadata.getValue(key)).plugin.serialize(this.persistentObjects.getValue(key))
-            );
+            if (Utils.isBrowser()) {
+                localStorage.setItem(key,
+                    (<IPersistentOptions>this.persistentObjectsMetadata.getValue(key)).plugin.serialize(this.persistentObjects.getValue(key)));
+            } else {
+                fs.writeFileSync(
+                    key,
+                    (<IPersistentOptions>this.persistentObjectsMetadata.getValue(key)).plugin.serialize(this.persistentObjects.getValue(key))
+                );
+            }
         }
         console.log("[Persistent] Done !");
     }
