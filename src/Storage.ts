@@ -13,24 +13,30 @@ export class Storage {
         let This = this;
         this.persistentObjects = new Map();
         this.persistentObjectsMetadata = new Map();
-        process.on('SIGINT', function() {
-            This.save();
-        });
-        process.on('SIGHUP', function() {
-            This.save();
-        });
-        process.on('SIGQUIT', function() {
-            This.save();
-        });
-        process.on('SIGTERM', function() {
-            This.save();
-        });
-        process.on('uncaughtException', function() {
-            This.save();
-        });
-        process.on('exit', function() {
-            This.save();
-        });
+        if (Utils.isBrowser()) {
+            window.addEventListener("unload", function(event) {
+                This.save();
+            });
+        } else {
+            process.on('SIGINT', function() {
+                This.save();
+            });
+            process.on('SIGHUP', function() {
+                This.save();
+            });
+            process.on('SIGQUIT', function() {
+                This.save();
+            });
+            process.on('SIGTERM', function() {
+                This.save();
+            });
+            process.on('uncaughtException', function() {
+                This.save();
+            });
+            process.on('exit', function() {
+                This.save();
+            });
+        }
         console.log("[Persistent] Initialization done !");
     }
 
