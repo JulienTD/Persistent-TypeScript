@@ -8,4 +8,7 @@ export class Utils {
         return instance.constructor ? instance.constructor.name : null;
     }
 
+    public static isBrowser(): boolean {
+        return typeof window !== 'undefined' && typeof window.document !== 'undefined';
+    }
 };
