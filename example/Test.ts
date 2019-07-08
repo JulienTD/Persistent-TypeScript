@@ -1,5 +1,6 @@
 import { Persistent } from "../src/Persistent";
 import { TestPlugin } from "./TestPlugin";
+import { A } from "./A"
 
 @Persistent()
 class Person {
@@ -42,6 +43,7 @@ class Lol {
 let person: Person = new Person("name", "surname");
 let lol: Lol = new Lol("issou", 89);
 let test: Test = new Test("World!");
+let a: A = new A("aaa", "a");
 
 console.log(person);
 console.log(lol);
@@ -52,3 +54,4 @@ person.name = "testtestetst";
 lol.aaa = 42;
 person.surname = "Julien";
 person["hakuna"] = "matata";
+a.name = "ngdognsongdkgdgdsnkgdsngdskngdslkngdsksldgngdsngdsng";

@@ -35,12 +35,12 @@ export function Persistent(options: IPersistentOptions = defaultOptions()) {
          */
         function construct(constructor: T, ...args: any[]) {
             var c : any = function () {
+                //@ts-ignore
                 return constructor.apply(this, args);
             }
             c.prototype = constructor.prototype;
             return new c();
         }
-
         // The new instance
         var f : any = function (...args: any[]) {
             let instance = construct(original, args);
