@@ -106,6 +106,12 @@
             }
             console.log("[Persistent] Done !");
         };
+        /**
+         * Returns the number of class saved
+         */
+        Storage.prototype.getSize = function () {
+            return this.persistentObjects.size();
+        };
         return Storage;
     }());
     exports.Storage = Storage;
