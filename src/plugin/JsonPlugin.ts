@@ -17,11 +17,11 @@ export class JsonPlugin implements IPersistentPlugin {
         return (<Map>object).toJson(this.minified);
     }
 
-    public deserialize(serializedObject: string): object {
+    public deserialize(serializedObject: string): object | null {
         return Map.fromJson(serializedObject);
     }
 
-    public get(object: object, className: string): object {
+    public get(object: object, className: string): object | null {
         if (object == null)
             return null;
         return (<Map>object).getValue(className);
