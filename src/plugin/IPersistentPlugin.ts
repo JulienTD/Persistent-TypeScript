@@ -6,22 +6,22 @@ export interface IPersistentPlugin {
     init: () => object;
 
     /**
-     * Serialize the storage object.
+     * Serializes the storage object.
      */
     serialize: (object: object) => string;
 
     /**
-     * Deserialize the storage object.
+     * Deserializes the storage object.
      */
     deserialize: (serializedObject: string) => object;
 
     /**
-     * Retrieves class' datas from the storage object and the class name.
+     * Retrieves class' data from the storage object and the class name.
      */
     get: (object: object, className: string) => object;
 
     /**
-     * Puts the class instance's datas inside the storage object.
+     * Puts the class instance's data inside the storage object.
      */
     put: (object: object, className: string, classInstance: object) => void;
 };
