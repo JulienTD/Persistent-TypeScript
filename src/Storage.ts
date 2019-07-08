@@ -104,6 +104,13 @@ export class Storage {
         }
         console.log("[Persistent] Done !");
     }
+
+    /**
+     * Returns the number of class saved
+     */
+    public getSize(): number {
+        return this.persistentObjects.size();
+    }
 };
 
 export let storage: Storage;

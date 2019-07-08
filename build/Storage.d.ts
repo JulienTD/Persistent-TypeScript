@@ -19,5 +19,9 @@ export declare class Storage {
      * Saves all classes stored in the storage using the plugin specified
      */
     save(): void;
+    /**
+     * Returns the number of class saved
+     */
+    getSize(): number;
 }
 export declare let storage: Storage;
