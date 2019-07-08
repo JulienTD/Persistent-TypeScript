@@ -1,0 +1,41 @@
+{
+  "name": "persistent-typescript",
+  "version": "1.0.0",
+  "description": "An easy way to have persistent data on the browser and nodejs",
+  "main": "./build/Persistent.js",
+  "types": "./build/index.d.ts",
+  "scripts": {
+    "test": "tsc ./tests/Storage.spec.ts && mocha ./tests/Storage.spec.js",
+    "compile": "tsc --watch",
+    "example": "tsc --watch -p ./example/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JulienTD/Persistent-TypeScript.git"
+  },
+  "author": "JulienTD",
+  "keywords": [
+    "Persistent",
+    "Persistentts",
+    "Persistent-TS",
+    "Persistent-Typescript",
+    "Persistant",
+    "save",
+    "data",
+    "config"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JulienTD/Persistent-TypeScript/issues"
+  },
+  "homepage": "https://github.com/JulienTD/Persistent-TypeScript#readme",
+  "devDependencies": {
+    "@types/node": "^12.0.10",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "reflect-metadata": "^0.1.13"
+  },
+  "dependencies": {
+    "process": "^0.11.10"
+  }
+}

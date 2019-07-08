@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "outDir": "../build/",
+    },
+    "include": ["./**/*"],
+    "exclude": [
+      "node_modules"
+    ]
+}
