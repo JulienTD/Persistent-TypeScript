@@ -20,10 +20,6 @@ script:
 
 jobs:
   include:
-    - stage: Functional Testing
-      node_js: '10'
-      script: npm run docker-func
-
     - stage: npm beta release
       if: branch = master AND type != pull_request
       node_js: '10'
