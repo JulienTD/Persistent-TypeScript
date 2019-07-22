@@ -60,6 +60,9 @@ typings/
 # next.js build output
 .next
 
+# Tanspiled files
+build/
+
 # Persistent files example
 .persistent.json
 hello_world.txt

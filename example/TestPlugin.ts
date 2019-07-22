@@ -24,4 +24,4 @@ export class TestPlugin implements IPersistentPlugin {
         object["instance"] = classInstance;
     }
 
-};
+}
