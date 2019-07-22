@@ -1,5 +1,5 @@
 # Persistent
-
+[![Build Status](https://travis-ci.org/JulienTD/Persistent-TypeScript.svg?branch=master)](https://travis-ci.org/JulienTD/Persistent-TypeScript)  
 Adds the possibility to have persistent data on the browser and on nodejs.
 
 ## Installation
