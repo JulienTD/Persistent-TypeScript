@@ -37,7 +37,6 @@ export class Storage {
                 This.save();
             });
         }
-        console.log("[Persistent] Initialization done !");
     }
 
     /**
@@ -47,22 +46,25 @@ export class Storage {
      */
     public loadPersistentFile(options: IPersistentOptions, force: boolean) {
         try {
+            let data: string | null;
+
             if (this.persistentObjects.containsKey(path.resolve(options.path)) == true && !force)
                 return;
             this.persistentObjects.put(path.resolve(options.path), options.plugin.init());
             this.persistentObjectsMetadata.put(path.resolve(options.path), options);
-            let data = null;
-            if (Utils.isBrowser()) {
+            if (Utils.isBrowser())
                 data = localStorage.getItem(path.resolve(options.path));
-            } else {
+            else
                 data = fs.readFileSync(path.resolve(options.path), "utf8");
-            }
-            if (data == null || data === undefined)
+            if (data == null)
                 return;
             this.persistentObjects.put(path.resolve(options.path), options.plugin.deserialize(data));
             this.persistentObjectsMetadata.put(path.resolve(options.path), options);
         } catch (err) {
-
+            if (options.debug) {
+                console.log("Failed to load the persistent file '" + options.path + "'");
+                console.log("Error: " + err);
+            }
         }
     }
 
@@ -87,22 +89,36 @@ export class Storage {
     }
 
     /**
+     * Retrieves a class instance by its name and its options
+     * @param className class name
+     * @param options Persistent option, with theses options you can choose your saver, loader and the path to the file
+     */
+    public getInstanceOfClass(className: string, options: IPersistentOptions): any | null {
+        let savedClass: any | null = options.plugin.get(this.persistentObjects.getValue(path.resolve(options.path)), className);
+
+        return savedClass;
+    }
+
+    /**
      * Saves all classes stored in the storage using the plugin specified
      */
     public save() {
-        console.log("[Persistent] Saving classes ...");
+        let option: IPersistentOptions;
+        let instance: any;
+
         for (let key of this.persistentObjects.keys()) {
-            if (Utils.isBrowser()) {
-                localStorage.setItem(key,
-                    (<IPersistentOptions>this.persistentObjectsMetadata.getValue(key)).plugin.serialize(this.persistentObjects.getValue(key)));
-            } else {
-                fs.writeFileSync(
-                    key,
-                    (<IPersistentOptions>this.persistentObjectsMetadata.getValue(key)).plugin.serialize(this.persistentObjects.getValue(key))
-                );
-            }
+            option = (<IPersistentOptions>this.persistentObjectsMetadata.getValue(key));
+            instance = this.persistentObjects.getValue(key);
+
+            if (option.debug)
+                console.log("Trying to save the instance of the object '" + Utils.getClassName(instance) + "' to the path '" + key + "'");
+            if (Utils.isBrowser())
+                localStorage.setItem(key, option.plugin.serialize(instance));
+            else
+                fs.writeFileSync(key, option.plugin.serialize(instance));
+            if (option.debug)
+                console.log("The instance of the object '" + Utils.getClassName(instance) + "' has been saved to the path '" + key + "'");
         }
-        console.log("[Persistent] Done !");
     }
 
     /**
