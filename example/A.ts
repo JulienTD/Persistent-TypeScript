@@ -3,7 +3,7 @@ import { TestPlugin } from "./TestPlugin";
 import { storage } from "../src/Storage";
 import { JsonPlugin } from "../src/plugin/JsonPlugin";
 
-@Persistent({path: "./aaa.txt", plugin: new JsonPlugin(false)})
+@Persistent({path: "./aaa.txt", plugin: new JsonPlugin(false), debug: true, watcher: false})
 export class A {
     public name: string;
 
