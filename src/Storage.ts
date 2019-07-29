@@ -20,21 +20,27 @@ export class Storage {
         } else {
             process.on('SIGINT', function() {
                 This.save();
+                process.exit();
             });
             process.on('SIGHUP', function() {
                 This.save();
+                process.exit();
             });
             process.on('SIGQUIT', function() {
                 This.save();
+                process.exit();
             });
             process.on('SIGTERM', function() {
                 This.save();
+                process.exit();
             });
             process.on('uncaughtException', function() {
                 This.save();
+                process.exit();
             });
             process.on('exit', function() {
                 This.save();
+                process.exit();
             });
         }
     }
@@ -46,20 +52,21 @@ export class Storage {
      */
     public loadPersistentFile(options: IPersistentOptions, force: boolean) {
         try {
+            let filePath = path.resolve(options.path);
             let data: string | null;
 
-            if (this.persistentObjects.containsKey(path.resolve(options.path)) == true && !force)
+            if (this.persistentObjects.containsKey(filePath) == true && !force)
                 return;
-            this.persistentObjects.put(path.resolve(options.path), options.plugin.init());
-            this.persistentObjectsMetadata.put(path.resolve(options.path), options);
+            this.persistentObjects.put(filePath, options.plugin.init());
+            this.persistentObjectsMetadata.put(filePath, options);
             if (Utils.isBrowser())
-                data = localStorage.getItem(path.resolve(options.path));
+                data = localStorage.getItem(filePath);
             else
-                data = fs.readFileSync(path.resolve(options.path), "utf8");
+                data = fs.readFileSync(filePath, "utf8");
             if (data == null)
                 return;
-            this.persistentObjects.put(path.resolve(options.path), options.plugin.deserialize(data));
-            this.persistentObjectsMetadata.put(path.resolve(options.path), options);
+            this.persistentObjects.put(filePath, options.plugin.deserialize(data));
+            this.persistentObjectsMetadata.put(filePath, options);
         } catch (err) {
             if (options.debug) {
                 console.log("Failed to load the persistent file '" + options.path + "'");
@@ -76,16 +83,18 @@ export class Storage {
     public store(classInstance: any, options: IPersistentOptions) {
         this.loadPersistentFile(options, false);
         let className: string | null = Utils.getClassName(classInstance);
+        let filePath: string = path.resolve(options.path);
+
         if (className == null)
             return;
-        let savedClass: any = options.plugin.get(this.persistentObjects.getValue(path.resolve(options.path)), className);
+        let savedClass: any = options.plugin.get(this.persistentObjects.getValue(filePath), className);
 
         if (savedClass != null) {
             for (let field in savedClass) {
                 classInstance[field] = savedClass[field];
             }
         }
-        options.plugin.put(this.persistentObjects.getValue(path.resolve(options.path)), className, classInstance);
+        options.plugin.put(this.persistentObjects.getValue(filePath), className, classInstance);
     }
 
     /**

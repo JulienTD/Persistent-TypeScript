@@ -10,7 +10,6 @@ import { Utils } from "./utils/Utils";
 export interface IPersistentOptions {
     plugin: IPersistentPlugin;
     path: string;
-    watcher: boolean;
     debug: boolean;
 };
 
@@ -21,8 +20,7 @@ function defaultOptions(): IPersistentOptions {
     return {
         plugin: new JsonPlugin(false),
         path: ".persistent.json",
-        watcher: false,
-        debug: true
+        debug: false
     };
 }
 
@@ -62,7 +60,6 @@ export function Persistent(options: IPersistentOptions = defaultOptions()) {
             storage.store(instance, options);
             return instance;
         }
-
         f.prototype = original.prototype;
         return f;
     }

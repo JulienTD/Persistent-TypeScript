@@ -20,7 +20,7 @@ class Person {
     }
 }
 
-@Persistent({path: "./hello_world.txt", plugin: new TestPlugin(), debug: true, watcher: false})
+@Persistent({path: "./hello_world.txt", plugin: new TestPlugin(), debug: false})
 class Test {
     public value: string;
 
@@ -49,6 +49,7 @@ console.log(person);
 console.log(lol);
 console.log(test);
 console.log(a);
+console.log(test);
 test.value = "meaaaaa!";
 
 person.name = "testtestetst";
@@ -57,10 +58,14 @@ person.surname = "Julien";
 person["hakuna"] = "matata";
 a.name = "ngdognsongdkgdgdsnkgdsngdskngdslkngdsksldgngdsngdsng";
 console.log(a);
-
+for (let i = 0; i < 1000000; i++) {
+    // console.log(test.value);
+}
 let aaa: A = new A("fffff", "f");
 console.log("------");
 console.log(aaa);
 
 aaa.name = "i've changed";
 console.log(a);
+
+test.value = "kfdslfdslfds";
