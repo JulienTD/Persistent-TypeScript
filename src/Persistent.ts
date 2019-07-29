@@ -22,7 +22,7 @@ function defaultOptions(): IPersistentOptions {
         plugin: new JsonPlugin(false),
         path: ".persistent.json",
         watcher: false,
-        debug: true
+        debug: false
     };
 }
 
@@ -60,9 +60,9 @@ export function Persistent(options: IPersistentOptions = defaultOptions()) {
                     return classLoaded;
             }
             storage.store(instance, options);
+            storage.watchClass(instance, options);
             return instance;
         }
-
         f.prototype = original.prototype;
         return f;
     }

@@ -20,23 +20,91 @@ export class Storage {
         } else {
             process.on('SIGINT', function() {
                 This.save();
+                process.exit();
             });
             process.on('SIGHUP', function() {
                 This.save();
+                process.exit();
             });
             process.on('SIGQUIT', function() {
                 This.save();
+                process.exit();
             });
             process.on('SIGTERM', function() {
                 This.save();
+                process.exit();
             });
             process.on('uncaughtException', function() {
                 This.save();
+                process.exit();
             });
             process.on('exit', function() {
                 This.save();
+                process.exit();
             });
         }
+    }
+
+    public watchClass(classInstance: any, options: IPersistentOptions) {
+        console.log("Watching ....");
+        let This = this;
+        let p = new Proxy(classInstance, {
+            set: function (oTarget, sKey, vValue) {
+                let option: IPersistentOptions;
+                let instance: any;
+
+                for (let key of This.persistentObjects.keys()) {
+                    if (key !== path.resolve(options.path))
+                        continue;
+                    console.log("On change saved !");
+                    option = (<IPersistentOptions>This.persistentObjectsMetadata.getValue(key));
+                    instance = This.persistentObjects.getValue(key);
+
+                    if (option.debug)
+                        console.log("Trying to save the instance of the object '" + Utils.getClassName(instance) + "' to the path '" + key + "'");
+                    if (Utils.isBrowser())
+                        localStorage.setItem(key, option.plugin.serialize(instance));
+                    else
+                        fs.writeFileSync(key, option.plugin.serialize(instance));
+                    if (option.debug)
+                        console.log("The instance of the object '" + Utils.getClassName(instance) + "' has been saved to the path '" + key + "'");
+                }
+
+                if (sKey in oTarget) { return false; }
+                return oTarget.setItem(sKey, vValue);
+            },
+        });
+        // onChange(classInstance, function (pathh, value, previousValue) {
+        //     let option: IPersistentOptions;
+        //     let instance: any;
+
+        //     for (let key of this.persistentObjects.keys()) {
+        //         if (key !== path.resolve(options.path))
+        //             continue;
+        //         console.log("On change saved !");
+        //         option = (<IPersistentOptions>this.persistentObjectsMetadata.getValue(key));
+        //         instance = this.persistentObjects.getValue(key);
+
+        //         if (option.debug)
+        //             console.log("Trying to save the instance of the object '" + Utils.getClassName(instance) + "' to the path '" + key + "'");
+        //         if (Utils.isBrowser())
+        //             localStorage.setItem(key, option.plugin.serialize(instance));
+        //         else
+        //             fs.writeFileSync(key, option.plugin.serialize(instance));
+        //         if (option.debug)
+        //             console.log("The instance of the object '" + Utils.getClassName(instance) + "' has been saved to the path '" + key + "'");
+        //     }
+        // });
+        fs.watch(path.resolve(options.path), /*{persistent: false},*/ (event: string, filename: string) => {
+            if (!filename || event !== 'change')
+                return;
+            // console.log(JSON.stringify(this.persistentObjects));
+            // this.loadPersistentFile(options, true);
+            // console.log(JSON.stringify(this.persistentObjects));
+            console.log(`${filename} file Changed`);
+            // TODO: merge file object with current obj
+            // TODO: When the user modifies the current instnace, it must update the file
+        });
     }
 
     /**
@@ -46,20 +114,21 @@ export class Storage {
      */
     public loadPersistentFile(options: IPersistentOptions, force: boolean) {
         try {
+            let filePath = path.resolve(options.path);
             let data: string | null;
 
-            if (this.persistentObjects.containsKey(path.resolve(options.path)) == true && !force)
+            if (this.persistentObjects.containsKey(filePath) == true && !force)
                 return;
-            this.persistentObjects.put(path.resolve(options.path), options.plugin.init());
-            this.persistentObjectsMetadata.put(path.resolve(options.path), options);
+            this.persistentObjects.put(filePath, options.plugin.init());
+            this.persistentObjectsMetadata.put(filePath, options);
             if (Utils.isBrowser())
-                data = localStorage.getItem(path.resolve(options.path));
+                data = localStorage.getItem(filePath);
             else
-                data = fs.readFileSync(path.resolve(options.path), "utf8");
+                data = fs.readFileSync(filePath, "utf8");
             if (data == null)
                 return;
-            this.persistentObjects.put(path.resolve(options.path), options.plugin.deserialize(data));
-            this.persistentObjectsMetadata.put(path.resolve(options.path), options);
+            this.persistentObjects.put(filePath, options.plugin.deserialize(data));
+            this.persistentObjectsMetadata.put(filePath, options);
         } catch (err) {
             if (options.debug) {
                 console.log("Failed to load the persistent file '" + options.path + "'");
@@ -76,16 +145,18 @@ export class Storage {
     public store(classInstance: any, options: IPersistentOptions) {
         this.loadPersistentFile(options, false);
         let className: string | null = Utils.getClassName(classInstance);
+        let filePath: string = path.resolve(options.path);
+
         if (className == null)
             return;
-        let savedClass: any = options.plugin.get(this.persistentObjects.getValue(path.resolve(options.path)), className);
+        let savedClass: any = options.plugin.get(this.persistentObjects.getValue(filePath), className);
 
         if (savedClass != null) {
             for (let field in savedClass) {
                 classInstance[field] = savedClass[field];
             }
         }
-        options.plugin.put(this.persistentObjects.getValue(path.resolve(options.path)), className, classInstance);
+        options.plugin.put(this.persistentObjects.getValue(filePath), className, classInstance);
     }
 
     /**
