@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { storage } from "./Storage";
 import { IPersistentPlugin } from "./plugin/IPersistentPlugin";
 import { JsonPlugin } from "./plugin/JsonPlugin";
+import { Utils } from "./utils/Utils";
 
 /**
  * Persistent options
@@ -9,6 +10,7 @@ import { JsonPlugin } from "./plugin/JsonPlugin";
 export interface IPersistentOptions {
     plugin: IPersistentPlugin;
     path: string;
+    debug: boolean;
 };
 
 /**
@@ -17,7 +19,9 @@ export interface IPersistentOptions {
 function defaultOptions(): IPersistentOptions {
     return {
         plugin: new JsonPlugin(false),
-        path: ".persistent.json"};
+        path: ".persistent.json",
+        debug: false
+    };
 }
 
 /**
@@ -34,20 +38,28 @@ export function Persistent(options: IPersistentOptions = defaultOptions()) {
          * @param args args' constructor
          */
         function construct(constructor: T, ...args: any[]) {
-            var c : any = function () {
+            var c : any = function() {
                 //@ts-ignore
                 return constructor.apply(this, args);
             }
             c.prototype = constructor.prototype;
             return new c();
         }
+
         // The new instance
         var f : any = function (...args: any[]) {
             let instance = construct(original, args);
+            let className: string | null = Utils.getClassName(instance);
+
+            if (className != null) {
+                let classLoaded = storage.getInstanceOfClass(className, options);
+
+                if (classLoaded != null)
+                    return classLoaded;
+            }
             storage.store(instance, options);
             return instance;
         }
-
         f.prototype = original.prototype;
         return f;
     }

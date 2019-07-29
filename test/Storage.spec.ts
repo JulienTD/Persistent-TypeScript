@@ -15,7 +15,7 @@ describe('Storage', () => {
     it('should store class instance', () => {
         let instance: Test = new Test("storage spec");
 
-        storage.store(instance, {path: "./storage_spec.txt", plugin: new JsonPlugin(false)});
+        storage.store(instance, {path: "./storage_spec.txt", plugin: new JsonPlugin(false), debug: false});
         expect(storage.getSize()).to.equal(1);
     });
 });

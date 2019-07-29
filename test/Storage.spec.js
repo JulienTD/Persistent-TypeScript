@@ -13,7 +13,7 @@ var Test = /** @class */ (function () {
 mocha_1.describe('Storage', function () {
     mocha_1.it('should store class instance', function () {
         var instance = new Test("storage spec");
-        Storage_1.storage.store(instance, { path: "./storage_spec.txt", plugin: new JsonPlugin_1.JsonPlugin(false) });
+        Storage_1.storage.store(instance, { path: "./storage_spec.txt", plugin: new JsonPlugin_1.JsonPlugin(false), debug: false });
         chai_1.expect(Storage_1.storage.getSize()).to.equal(1);
     });
 });

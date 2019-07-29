@@ -1,5 +1,6 @@
 import { IPersistentPlugin } from "./IPersistentPlugin";
 import { Map } from "../utils/Map";
+import { Utils } from "../utils/Utils";
 
 export class JsonPlugin implements IPersistentPlugin {
 
@@ -14,6 +15,8 @@ export class JsonPlugin implements IPersistentPlugin {
     }
 
     public serialize(object: object): string {
+        if (Utils.isBrowser())
+            return (<Map>object).toJson(true);
         return (<Map>object).toJson(this.minified);
     }
 

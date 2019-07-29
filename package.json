@@ -1,13 +1,14 @@
 {
   "name": "persistent-typescript",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "An easy way to have persistent data on the browser and on nodejs",
   "main": "./build/Persistent.js",
   "types": "./build/index.d.ts",
   "scripts": {
-    "test": "tsc ./tests/Storage.spec.ts && mocha ./tests/Storage.spec.js",
+    "test": "tsc ./test/Storage.spec.ts && mocha ./test/Storage.spec.js",
     "compile": "tsc --watch",
-    "example": "tsc --watch -p ./example/"
+    "example": "tsc --watch -p ./example/",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -33,9 +34,11 @@
     "@types/node": "^12.0.10",
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^3.5.3"
   },
   "dependencies": {
+    "observe": "^1.4.1",
     "process": "^0.11.10"
   }
 }

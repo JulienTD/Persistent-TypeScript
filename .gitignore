@@ -39,6 +39,9 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
+# Build Files
+build/
+
 # Optional npm cache directory
 .npm
 
@@ -59,10 +62,10 @@ typings/
 
 # next.js build output
 .next
-<<<<<<< HEAD
+
+# Tanspiled files
+build/
 
 # Persistent files example
 .persistent.json
 hello_world.txt
-=======
->>>>>>> 14933d44dc11c5ab27cb01f29b459d7c4203fe6a
