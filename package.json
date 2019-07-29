@@ -1,6 +1,6 @@
 {
   "name": "persistent-typescript",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "An easy way to have persistent data on the browser and on nodejs",
   "main": "./build/Persistent.js",
   "types": "./build/index.d.ts",
