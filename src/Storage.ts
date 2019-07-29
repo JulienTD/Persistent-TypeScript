@@ -45,68 +45,6 @@ export class Storage {
         }
     }
 
-    public watchClass(classInstance: any, options: IPersistentOptions) {
-        console.log("Watching ....");
-        let This = this;
-        let p = new Proxy(classInstance, {
-            set: function (oTarget, sKey, vValue) {
-                let option: IPersistentOptions;
-                let instance: any;
-
-                for (let key of This.persistentObjects.keys()) {
-                    if (key !== path.resolve(options.path))
-                        continue;
-                    console.log("On change saved !");
-                    option = (<IPersistentOptions>This.persistentObjectsMetadata.getValue(key));
-                    instance = This.persistentObjects.getValue(key);
-
-                    if (option.debug)
-                        console.log("Trying to save the instance of the object '" + Utils.getClassName(instance) + "' to the path '" + key + "'");
-                    if (Utils.isBrowser())
-                        localStorage.setItem(key, option.plugin.serialize(instance));
-                    else
-                        fs.writeFileSync(key, option.plugin.serialize(instance));
-                    if (option.debug)
-                        console.log("The instance of the object '" + Utils.getClassName(instance) + "' has been saved to the path '" + key + "'");
-                }
-
-                if (sKey in oTarget) { return false; }
-                return oTarget.setItem(sKey, vValue);
-            },
-        });
-        // onChange(classInstance, function (pathh, value, previousValue) {
-        //     let option: IPersistentOptions;
-        //     let instance: any;
-
-        //     for (let key of this.persistentObjects.keys()) {
-        //         if (key !== path.resolve(options.path))
-        //             continue;
-        //         console.log("On change saved !");
-        //         option = (<IPersistentOptions>this.persistentObjectsMetadata.getValue(key));
-        //         instance = this.persistentObjects.getValue(key);
-
-        //         if (option.debug)
-        //             console.log("Trying to save the instance of the object '" + Utils.getClassName(instance) + "' to the path '" + key + "'");
-        //         if (Utils.isBrowser())
-        //             localStorage.setItem(key, option.plugin.serialize(instance));
-        //         else
-        //             fs.writeFileSync(key, option.plugin.serialize(instance));
-        //         if (option.debug)
-        //             console.log("The instance of the object '" + Utils.getClassName(instance) + "' has been saved to the path '" + key + "'");
-        //     }
-        // });
-        fs.watch(path.resolve(options.path), /*{persistent: false},*/ (event: string, filename: string) => {
-            if (!filename || event !== 'change')
-                return;
-            // console.log(JSON.stringify(this.persistentObjects));
-            // this.loadPersistentFile(options, true);
-            // console.log(JSON.stringify(this.persistentObjects));
-            console.log(`${filename} file Changed`);
-            // TODO: merge file object with current obj
-            // TODO: When the user modifies the current instnace, it must update the file
-        });
-    }
-
     /**
      * Loads a persistent file to retrieve the classes information stored in it
      * @param options Persistent option, with theses options you can choose your saver, loader and the path to the file

@@ -20,7 +20,7 @@ class Person {
     }
 }
 
-@Persistent({path: "./hello_world.txt", plugin: new TestPlugin(), debug: false, watcher: true})
+@Persistent({path: "./hello_world.txt", plugin: new TestPlugin(), debug: false})
 class Test {
     public value: string;
 
