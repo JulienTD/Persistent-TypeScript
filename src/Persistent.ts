@@ -64,3 +64,5 @@ export function Persistent(options: IPersistentOptions = defaultOptions()) {
         return f;
     }
 }
+
+export {JsonPlugin};

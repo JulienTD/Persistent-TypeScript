@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "description": "An easy way to have persistent data on the browser and on nodejs",
   "main": "./build/Persistent.js",
-  "types": "./build/index.d.ts",
+  "types": "./build/Persistent.d.ts",
   "scripts": {
     "test": "tsc ./test/Storage.spec.ts && mocha ./test/Storage.spec.js",
     "compile": "tsc --watch",

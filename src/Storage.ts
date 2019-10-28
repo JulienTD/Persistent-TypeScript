@@ -1,9 +1,10 @@
 import { Utils } from "./utils/Utils";
 import { Map } from "./utils/Map";
-import { Persistent, IPersistentOptions } from "./Persistent";
+import { IPersistentOptions } from "./Persistent";
 import * as fs from 'fs';
-import * as process from "process";
 import * as path from "path";
+if (Utils.isBrowser())
+    process = require("process");
 
 export class Storage {
     private persistentObjects: Map;
